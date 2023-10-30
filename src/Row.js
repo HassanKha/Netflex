@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef} from "react";
 import "../src/Row.css";
 import axios from "../src/axios";
+import { useSelector, useDispatch } from 'react-redux';
+
+import { selectMovie , setMovie} from './features/movieSlice';
 
 function Row({ title, fetchURL, isLargeRow = false }) {
   const [movies, setMovies] = useState([]);
+  //const movie = useSelector(selectMovie)
+  const dispatch = useDispatch()
   const base_url = "https://image.tmdb.org/t/p/original/";
   useEffect(() => {
     async function fetchData() {
@@ -14,15 +19,20 @@ function Row({ title, fetchURL, isLargeRow = false }) {
     fetchData();
   }, [fetchURL]);
 
+const ReplaceMovie = (movie) => {
+//console.log(movie)
+dispatch(setMovie(movie))
+}
+
   return (
     <div className="row">
       <h2>{title}</h2>
       <div className="row_posters">
         {movies.map(
-          (movie) => 
+          (movie,i) => 
             ((isLargeRow && movie.poster_path) ||
             (!isLargeRow && movie.backdrop_path)) && (
-              <img
+              <img onClick = {()=> ReplaceMovie(movie)}
                 className={`row_poster ${isLargeRow && "row_posterLarge"}`}
                 src={`${base_url}${
                   isLargeRow ? movie.poster_path : movie.backdrop_path

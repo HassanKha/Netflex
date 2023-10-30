@@ -1,15 +1,16 @@
 import React, { useRef } from "react";
 import "../src/SignIn.css";
 import {
+
   auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from ".././src/firebase";
-
+import { useNavigate } from 'react-router-dom';
 function SignIn() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-
+const nav = useNavigate();
   const register = async (e) => {
     e.preventDefault();
     try {
@@ -18,7 +19,9 @@ function SignIn() {
         emailRef.current.value,
         passwordRef.current.value
       );
+
       console.log(Reg);
+      nav('/')
     } catch (error) {
       console.log(error);
     }
@@ -32,7 +35,7 @@ function SignIn() {
         emailRef.current.value,
         passwordRef.current.value
       );
-      console.log(Reg);
+      nav('/')
     } catch (error) {
       console.log(error);
     }

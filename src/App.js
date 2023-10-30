@@ -42,6 +42,10 @@ function App() {
       path: "profile",
       element: <ProfileScreen />,
     },
+    {
+      path: "login",
+      element: <Login />,
+    },
   ]);
 
   if (!user) {

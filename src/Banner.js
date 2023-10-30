@@ -2,18 +2,27 @@ import React, { useState, useEffect } from "react";
 import "../src/Banner.css";
 import axios from "../src/axios";
 import requests from "./Request";
+import { useSelector } from 'react-redux';
+import { selectMovie , setMovie } from './features/movieSlice';
+import {  useDispatch } from 'react-redux';
 
 function Banner() {
-  const [movie, setMovie] = useState([]);
+  //const [movie, setMovie] = useState([]);
+ const movie = useSelector(selectMovie)
 
+const dispatch = useDispatch()
+ //setMovie(Selectedmovie)
   useEffect(() => {
     async function fetchData() {
       const request = await axios.get(requests.fetchNetflexOriginals);
-      setMovie(
-        request.data.results[
-          Math.floor(Math.random() * request.data.results.length - 1)
-        ]
-      );
+      dispatch(setMovie(request.data.results[
+        Math.floor(Math.random() * request.data.results.length - 1)
+      ]))
+      // setMovie(
+      //   request.data.results[
+      //     Math.floor(Math.random() * request.data.results.length - 1)
+      //   ]
+      // );
       return request;
     }
     fetchData();
@@ -22,7 +31,7 @@ function Banner() {
   function truncate(string, n) {
     return string?.length > n ? string.substr(0, n - 1) + "..." : string;
   }
-  console.log(movie);
+  //console.log(movie);
   return (
     <header
       style={{
